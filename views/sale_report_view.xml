@@ -1,0 +1,76 @@
+<odoo>
+    <!-- Vista tipo lista -->
+    <record id="view_sale_cost_report_list" model="ir.ui.view">
+        <field name="name">custom.sale.report.list</field>
+        <field name="model">custom.sale.report</field>
+        <field name="arch" type="xml">
+           <tree string="Reporte de Ventas y Costos">
+                <field name="compania" string="Compañía"/>
+                <field name="fecha_factura"/>
+                <field name="mes_factura" string="Mes de Factura"/>
+                <field name="tipo_documento"/>
+                <field name="numero"/>
+                <field name="socio"/>
+                <field name="vendedor"/>
+                <field name="producto_nombre"/>
+                <field name="cantidad"/>
+                <field name="producto_costo"/>
+                <field name="precio_unitario" string="Precio Venta Unidad (S/)"/>
+                <field name="costo_total"/>
+                <field name="subtotal_soles"/>
+                <field name="margen"/>
+                <field name="contribucion"/>
+                <field name="sector"/>
+                <field name="ciudad"/>
+                <field name="terminos_pago" string="Términos de Pago"/> 
+           </tree>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda -->
+    <record id="view_sale_cost_report_search" model="ir.ui.view">
+        <field name="name">custom.sale.report.search</field>
+        <field name="model">custom.sale.report</field>
+        <field name="arch" type="xml">
+           <search string="Buscar en Reporte de Ventas y Costos">
+                <field name="fecha_factura"/>
+                <field name="mes_factura" string="Mes de Factura"/>
+                <field name="tipo_documento"/>
+                <field name="numero"/>
+                <field name="socio"/>
+                <field name="vendedor"/>
+                <field name="producto_nombre"/>
+                <field name="precio_unitario" string="Precio Venta Unidad (S/)"/>
+                <field name="sector"/>
+                <field name="ciudad"/>
+                <field name="compania" string="Compañía"/>
+                <field name="terminos_pago" string="Términos de Pago"/>
+
+
+                <!-- Filtros predefinidos -->
+                <filter string="Facturas" name="filter_facturas" domain="[('tipo_documento', '=', 'out_invoice')]"/>
+                <filter string="Notas de Crédito" name="filter_notas_credito" domain="[('tipo_documento', '=', 'out_refund')]"/>
+                <filter string="Por Fecha Actual" name="filter_fecha_hoy" domain="[('fecha_factura', '=', context_today())]"/>
+                <filter string="Por Compañía" name="filter_company" domain="[('compania', 'ilike', 'Nombre de la Compañía')]"/>
+                <filter string="Por Mes" name="filter_by_month" domain="[('mes_factura', 'ilike', '2023-01')]"/>
+
+                <!-- Agrupadores -->
+                <group expand="1" string="Agrupar por">
+                    <filter string="Vendedor" name="group_by_vendedor" context="{'group_by': 'vendedor'}"/>
+                    <filter string="Producto" name="group_by_producto" context="{'group_by': 'producto_nombre'}"/>
+                    <filter string="Sector" name="group_by_sector" context="{'group_by': 'sector'}"/>
+                    <filter string="Mes de Factura" name="group_by_month" context="{'group_by': 'mes_factura'}"/>
+                </group>
+           </search>
+        </field>
+    </record>
+
+    <!-- Acción para abrir la vista -->
+    <record id="action_sale_cost_report" model="ir.actions.act_window">
+        <field name="name">Reporte de Ventas y Costos</field>
+        <field name="res_model">custom.sale.report</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_sale_cost_report_list"/>
+        <field name="search_view_id" ref="view_sale_cost_report_search"/>
+    </record>
+</odoo> 
